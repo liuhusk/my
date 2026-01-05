@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘虎 - 2025年度个人工作报告</title>
+    
+    <!-- Google Fonts - Outfit + Noto Sans SC -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Outfit', 'sans-serif'],
+                        'sans': ['Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#6366F1',
+                        secondary: '#8B5CF6',
+                        accent: '#F59E0B',
+                        dark: {
+                            950: '#050510',
+                            900: '#0A0E1A',
+                            800: '#0F1629',
+                            700: '#1A2235',
+                            600: '#252D42',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0E1A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #6366F1, #8B5CF6);
+            border-radius: 4px;
+        }
+        
+        /* Aurora 渐变背景动画 */
+        .aurora-bg {
+            background: linear-gradient(135deg, 
+                #0A0E1A 0%, 
+                #1A1040 25%, 
+                #0A0E1A 50%, 
+                #0A2540 75%, 
+                #0A0E1A 100%);
+            background-size: 400% 400%;
+            animation: aurora 15s ease-in-out infinite;
+        }
+        
+        @keyframes aurora {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* 流动的光效 */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .glow-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #6366F1 0%, transparent 70%);
+            top: -200px;
+            left: -200px;
+            animation: float1 20s ease-in-out infinite;
+        }
+        
+        .glow-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #8B5CF6 0%, transparent 70%);
+            top: 50%;
+            right: -150px;
+            animation: float2 18s ease-in-out infinite;
+        }
+        
+        .glow-orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #06B6D4 0%, transparent 70%);
+            bottom: 10%;
+            left: 20%;
+            animation: float3 22s ease-in-out infinite;
+        }
+        
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(50px, 30px) rotate(120deg); }
+            66% { transform: translate(-30px, 50px) rotate(240deg); }
+        }
+        
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-80px, -50px) scale(1.1); }
+        }
+        
+        @keyframes float3 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(60px, -40px); }
+        }
+        
+        /* 玻璃拟态卡片 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+        
+        .glass-card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card-hover:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 渐变文字 */
+        .gradient-text {
+            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #06B6D4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-text-warm {
+            background: linear-gradient(135deg, #F59E0B 0%, #EF4444 50%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        /* 进度条动画 */
+        .progress-bar {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            100% { left: 100%; }
+        }
+        
+        /* 入场动画 */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 时间线 */
+        .timeline-line {
+            background: linear-gradient(180deg, #6366F1, #8B5CF6, #06B6D4);
+        }
+        
+        /* 技能标签 */
+        .skill-tag {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4));
+            border-color: rgba(99, 102, 241, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        /* 滚动进度指示器 */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366F1, #8B5CF6, #06B6D4);
+            z-index: 1000;
+            transform-origin: left;
+        }
+        
+        /* 粒子效果 */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 15s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        
+        /* 鼠标跟随光效 */
+        .cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+        }
+        
+        /* 减少动画偏好 */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body class="aurora-bg min-h-screen text-white font-sans overflow-x-hidden">
+    <!-- 滚动进度指示器 -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- 背景光效 -->
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+    
+    <!-- 鼠标跟随光效 -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+    
+    <!-- 粒子效果容器 -->
+    <div id="particles"></div>
+    
+    <!-- 导航栏 -->
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="glass-card rounded-2xl px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-display font-bold text-lg">
+                    虎
+                </div>
+                <span class="font-display font-semibold text-lg hidden sm:block">刘虎 · 2025</span>
+            </div>
+            <div class="flex items-center gap-6 text-sm font-medium">
+                <a href="#overview" class="text-white/60 hover:text-white transition-colors cursor-pointer">概览</a>
+                <a href="#projects" class="text-white/60 hover:text-white transition-colors cursor-pointer">项目</a>
+                <a href="#timeline" class="text-white/60 hover:text-white transition-colors cursor-pointer">时间线</a>
+                <a href="#skills" class="text-white/60 hover:text-white transition-colors cursor-pointer">技能</a>
+                <a href="#future" class="text-white/60 hover:text-white transition-colors cursor-pointer">展望</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 区域 -->
+    <header class="min-h-screen flex items-center justify-center px-4 pt-20 relative overflow-hidden">
+        <div class="text-center max-w-4xl mx-auto fade-in-up">
+            <!-- 年份徽章 -->
+            <div class="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2 mb-8">
+                <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                <span class="text-white/70 text-sm font-medium">年度工作报告</span>
+            </div>
+            
+            <!-- 主标题 -->
+            <h1 class="font-display text-6xl sm:text-7xl md:text-8xl font-bold mb-6 leading-tight">
+                <span class="gradient-text">2025</span>
+                <br>
+                <span class="text-white">年度报告</span>
+            </h1>
+            
+            <!-- 副标题 -->
+            <p class="text-xl sm:text-2xl text-white/60 mb-4 font-light">
+                技术创造价值 · 代码驱动未来
+            </p>
+            
+            <div class="flex items-center justify-center gap-2 mb-12">
+                <span class="text-3xl font-display font-semibold gradient-text-warm">刘虎</span>
+                <span class="text-white/40">|</span>
+                <span class="text-white/60">全栈开发工程师</span>
+            </div>
+            
+            <!-- 快速统计 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
+                <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
+                    <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">892</div>
+                    <div class="text-white/50 text-sm mt-1">完成任务</div>
+                </div>
+                <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
+                    <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">8</div>
+                    <div class="text-white/50 text-sm mt-1">核心项目</div>
+                </div>
+                <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
+                    <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">242</div>
+                    <div class="text-white/50 text-sm mt-1">工作日</div>
+                </div>
+                <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
+                    <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">2150</div>
+                    <div class="text-white/50 text-sm mt-1">工时投入</div>
+                </div>
+            </div>
+            
+            <!-- 向下滚动提示 -->
+            <div class="mt-16 animate-bounce">
+                <a href="#overview" class="cursor-pointer">
+                    <svg class="w-6 h-6 mx-auto text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-10 max-w-6xl mx-auto px-4">
+        
+        <!-- 年度概览 -->
+        <section id="overview" class="py-24 scroll-mt-20">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">年度<span class="gradient-text">概览</span></h2>
+                <p class="text-white/50 text-lg">全年工作数据一览</p>
+            </div>
+            
+            <!-- 月度工作量图表 -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 mb-8 fade-in-up">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-display text-xl font-semibold">月度工作量分布</h3>
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
+                            <span class="text-white/60">工作日数</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+                            <span class="text-white/60">任务数量</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="h-64 sm:h-80">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- 工作类型分布 -->
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                    <h3 class="font-display text-xl font-semibold mb-6">工作类型分布</h3>
+                    <div class="h-64">
+                        <canvas id="typeChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                    <h3 class="font-display text-xl font-semibold mb-6">任务类型分布</h3>
+                    <div class="h-64">
+                        <canvas id="taskTypeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 主要项目投入时间 -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                <h3 class="font-display text-xl font-semibold mb-6">主要项目投入时间</h3>
+                <div class="h-72">
+                    <canvas id="projectTimeChart"></canvas>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 项目成果 -->
+        <section id="projects" class="py-24 scroll-mt-20">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                    重点<span class="gradient-text">项目</span>成果
+                </h2>
+                <p class="text-white/50 text-lg">全年参与的核心项目及取得的关键成果</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 1688供应链 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-amber-500/20 text-amber-400 mb-3">电商平台</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">1688供应链分销</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成1688货源对接、代销商品管理、消息订阅、SPI接口开发等核心功能</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">货源对接</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">消息订阅</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 1-6月</span>
+                    </div>
+                </div>
+                
+                <!-- 多电商平台对接 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-pink-500/20 text-pink-400 mb-3">电商平台</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">多电商平台对接</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成小红书、抖店、快手、拼多多等平台的接口对接与功能开发</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">接口开发</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">批量操作</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 1-4月</span>
+                    </div>
+                </div>
+                
+                <!-- 类目匹配与属性预测 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-violet-500/20 text-violet-400 mb-3">AI相关</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">类目匹配与属性预测</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">基于Lucene实现类目相似度检索，使用LLM推断商品属性值</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">LLM应用</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">Lucene</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 2-5月</span>
+                    </div>
+                </div>
+                
+                <!-- 循链项目 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400 mb-3">供应链</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">循链项目</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">从零搭建循链平台，完成采购计划、订单管理、运单调度、WebSocket消息</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">订单系统</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">运单调度</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 4-10月</span>
+                    </div>
+                </div>
+                
+                <!-- 冷链TMS -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-blue-500/20 text-blue-400 mb-3">定制项目</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">冷链TMS</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成SpringBoot3.x升级改造，SAAS计费版本开发，微信小程序对接</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">系统升级</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">SAAS计费</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 6-11月</span>
+                    </div>
+                </div>
+                
+                <!-- 洲际商会 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 fade-in-up cursor-pointer group">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                        </svg>
+                    </div>
+                    <span class="inline-block px-3 py-1 rounded-full text-xs bg-emerald-500/20 text-emerald-400 mb-3">定制项目</span>
+                    <h3 class="font-display text-xl font-semibold mb-2">洲际商会</h3>
+                    <p class="text-white/50 text-sm mb-4 leading-relaxed">跨境贸易平台，支持多角色订单流转、合同签署、保证金管理、国际化</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">多语言</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">订单管理</span>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
+                        <span class="text-xs text-white/40">持续时间: 9-11月</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 成长轨迹时间线 -->
+        <section id="timeline" class="py-24 scroll-mt-20">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">时间<span class="gradient-text">轨迹</span></h2>
+                <p class="text-white/50 text-lg">每月精彩回顾</p>
+            </div>
+            
+            <div class="relative">
+                <!-- 时间线轴 -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full timeline-line hidden md:block"></div>
+                
+                <!-- 月份卡片 -->
+                <div class="space-y-8">
+                    <!-- 1月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">1月</span>
+                                    <span class="text-white/40 text-sm">新年启航</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">1688货源对接正式发版，完成商品代销、消息订阅等核心功能</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex w-4 h-4 bg-primary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                    
+                    <!-- 2月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-secondary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">2月</span>
+                                    <span class="text-white/40 text-sm">技术探索</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">小红书开放平台对接启动，电商类目相似度检索算法研发</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 3月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">3月</span>
+                                    <span class="text-white/40 text-sm">多线并进</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">小红书发品功能上线，淘宝平台接口风控改造，AI属性预测探索</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex w-4 h-4 bg-cyan-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                    
+                    <!-- 4-5月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-amber-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">4-5月</span>
+                                    <span class="text-white/40 text-sm">循链诞生</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">循链项目从零搭建，完成采购计划、订单管理、运单调度、消息系统全流程</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 6-7月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">6-7月</span>
+                                    <span class="text-white/40 text-sm">平台升级</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">冷链TMS项目改造升级，微信小程序开发，ruoyi-plus框架研究实践</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex w-4 h-4 bg-emerald-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                    
+                    <!-- 8-9月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-pink-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">8-9月</span>
+                                    <span class="text-white/40 text-sm">商业化落地</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">冷链SAAS计费版本开发，洲际商会项目启动，订单流程设计开发</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 10-11月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12 md:text-right mb-4 md:mb-0">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">10-11月</span>
+                                    <span class="text-white/40 text-sm">深耕细作</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">洲际商会订单合同流程完善，多角色系统优化，自定义费用功能开发</p>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex w-4 h-4 bg-violet-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12"></div>
+                    </div>
+                    
+                    <!-- 12月 -->
+                    <div class="md:flex items-center fade-in-up">
+                        <div class="md:w-1/2 md:pr-12"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-rose-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="md:w-1/2 md:pl-12">
+                            <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="text-2xl font-display font-bold gradient-text">12月</span>
+                                    <span class="text-white/40 text-sm">收官之战</span>
+                                </div>
+                                <p class="text-white/60 text-sm leading-relaxed">鲲链TMS-Pro框架搭建，多租户架构设计，1688改造对接，完美收官</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 技能提升 -->
+        <section id="skills" class="py-24 scroll-mt-20">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                    技能<span class="gradient-text">图谱</span>
+                </h2>
+                <p class="text-white/50 text-lg">2025年掌握的新技术与技能提升情况</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- 技能雷达图 -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                    <h3 class="font-display text-xl font-semibold mb-6">技能掌握程度</h3>
+                    <div class="h-80">
+                        <canvas id="skillsRadarChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 技术学习进度 -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                    <h3 class="font-display text-xl font-semibold mb-6">年度技术学习</h3>
+                    
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between mb-2 text-sm">
+                                <span class="text-white/80">AI与LLM应用</span>
+                                <span class="text-violet-400">85%</span>
+                            </div>
+                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-500" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2 text-sm">
+                                <span class="text-white/80">Spring Boot 3.x</span>
+                                <span class="text-emerald-400">90%</span>
+                            </div>
+                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full bg-gradient-to-r from-emerald-400 to-green-500" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2 text-sm">
+                                <span class="text-white/80">Lucene搜索引擎</span>
+                                <span class="text-primary">75%</span>
+                            </div>
+                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full bg-gradient-to-r from-primary to-secondary" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2 text-sm">
+                                <span class="text-white/80">Docker容器化</span>
+                                <span class="text-amber-400">70%</span>
+                            </div>
+                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2 text-sm">
+                                <span class="text-white/80">低代码平台</span>
+                                <span class="text-cyan-400">65%</span>
+                            </div>
+                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div class="progress-bar h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-white/10">
+                        <h4 class="text-lg font-semibold mb-4">技术学习记录</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                                <p class="text-white/60 text-sm">研究低代码平台、开源企业后台管理系统、ruoyi-plus框架等</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                                <p class="text-white/60 text-sm">学习并实践多模态模型部署与应用、Lucene搜索引擎</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
+                                <p class="text-white/60 text-sm">参与AI相关分享会和评审会，了解AI工具的使用和发展</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 2026年工作计划 -->
+        <section id="future" class="py-24 scroll-mt-20">
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                    <span class="gradient-text-warm">2026</span> 年工作计划
+                </h2>
+                <p class="text-white/50 text-lg">未来一年的工作规划与发展方向</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <!-- 系统优化与维护 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8 fade-in-up cursor-pointer">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl font-semibold">系统优化与维护</h3>
+                    </div>
+                    <p class="text-white/50 mb-4">跟进现有项目的优化和维护，保障系统稳定运行，提升用户体验。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">1688及多平台对接&稳定的保证</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">洲际商会维护二期开发</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">冷链系统功能完善</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">锦亚海tms项目开发&后续维护</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- AI赋能 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8 fade-in-up cursor-pointer">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-400 to-purple-500 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl font-semibold">AI赋能</h3>
+                    </div>
+                    <p class="text-white/50 mb-4">深入LLM应用开发，探索AI工程最佳实践，用AI提效日常开发。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">深入LLM应用开发，构建智能Agent系统</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">探索RAG、Function Calling等AI工程实践</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">用AI提效日常开发，探索Cursor、Claude Code最佳实践</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">时刻关注国产AI模型发展，探索国产模型可替代方案</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 项目攻坚 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8 fade-in-up cursor-pointer">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-green-500 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl font-semibold">项目架构升级</h3>
+                    </div>
+                    <p class="text-white/50 mb-4">继续深耕现有业务，推动项目架构升级与AI开发工程化改造。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">完善鲲链TMS-Pro多租户架构落地</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">推动新增项目前后端一体化开发落地</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">持续优化已有项目的AI开发体验</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 个人成长 -->
+                <div class="glass-card glass-card-hover rounded-3xl p-6 sm:p-8 fade-in-up cursor-pointer">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-xl font-semibold">个人成长</h3>
+                    </div>
+                    <p class="text-white/50 mb-4">持续学习与输出，提升技术影响力，平衡工作与生活。</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">输出技术博客文章，分享实战经验</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">参与开源项目贡献，提升技术影响力</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            <span class="text-white/70 text-sm">保持健康生活，平衡工作与生活</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- 年度关键词 -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
+                <h3 class="font-display text-xl font-semibold mb-6 text-center">2026 年度关键词</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <span class="px-6 py-3 rounded-full bg-gradient-to-r from-primary/30 to-secondary/30 border border-primary/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
+                        AI Agent
+                    </span>
+                    <span class="px-6 py-3 rounded-full bg-gradient-to-r from-pink-400/30 to-rose-500/30 border border-pink-400/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
+                        全栈开发
+                    </span>
+                    <span class="px-6 py-3 rounded-full bg-gradient-to-r from-cyan-400/30 to-blue-500/30 border border-cyan-400/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
+                        架构升级
+                    </span>
+                    <span class="px-6 py-3 rounded-full bg-gradient-to-r from-amber-400/30 to-orange-500/30 border border-amber-400/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
+                        技术输出
+                    </span>
+                    <span class="px-6 py-3 rounded-full bg-gradient-to-r from-emerald-400/30 to-green-500/30 border border-emerald-400/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
+                        持续成长
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 年度总结 -->
+        <section class="py-24">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="glass-card rounded-3xl p-8 sm:p-12 fade-in-up">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary via-secondary to-cyan-400 flex items-center justify-center mx-auto mb-8">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+                        </svg>
+                    </div>
+                    
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold mb-6">
+                        <span class="gradient-text">2025</span>，感谢奋斗的自己
+                    </h2>
+                    
+                    <p class="text-white/60 text-lg leading-relaxed mb-8">
+                        这一年，从1688供应链到循链平台，从小红书对接到洲际商会，每一行代码都承载着成长与突破。
+                        技术在进步，业务在深耕，AI在探索。感谢每一个挑战，让我变得更加强大。
+                    </p>
+                    
+                    <div class="flex items-center justify-center gap-4 flex-wrap">
+                        <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-400"></div>
+                            <span class="text-white/70">持续学习</span>
+                        </div>
+                        <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-blue-400"></div>
+                            <span class="text-white/70">稳步成长</span>
+                        </div>
+                        <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-purple-400"></div>
+                            <span class="text-white/70">勇于创新</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人箴言 -->
+                    <div class="mt-10 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-white/5">
+                        <p class="text-white/70 text-base italic leading-relaxed">
+                            每一行代码都是一次对话，每一个项目都是一次成长。<br>
+                            2025年的征程已经落幕，但技术探索的脚步永不停歇。
+                        </p>
+                        <p class="text-right mt-4 text-white/50 text-sm">—— 刘虎</p>
+                    </div>
+                    
+                    <div class="mt-12 pt-8 border-t border-white/10">
+                        <p class="text-white/40 text-sm">
+                            <span class="font-display font-semibold text-white/60">刘虎</span> · 全栈开发工程师
+                        </p>
+                        <p class="text-white/30 text-xs mt-2">2026年，继续前行</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-12 px-4 border-t border-white/5">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-white/30 text-sm">
+                © 2025 刘虎 · 年度工作报告 · Made with ❤️
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 创建粒子效果
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        
+        // 鼠标跟随光效
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('cursorGlow');
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+        
+        // 滚动进度指示器
+        window.addEventListener('scroll', () => {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = scrollTop / docHeight;
+            scrollProgress.style.transform = `scaleX(${progress})`;
+        });
+        
+        // 滚动入场动画
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // 月度工作量图表初始化
+        function initMonthlyChart() {
+            const ctx = document.getElementById('monthlyChart').getContext('2d');
+            
+            // 月度数据
+            const months = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
+            const workDays = [18, 17, 20, 22, 20, 18, 22, 20, 13, 15, 17, 18];
+            const tasks = [67, 68, 85, 95, 78, 72, 88, 82, 52, 58, 68, 72];
+            
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months,
+                    datasets: [
+                        {
+                            label: '工作日数',
+                            data: workDays,
+                            backgroundColor: 'rgba(99, 102, 241, 0.6)',
+                            borderColor: 'rgba(99, 102, 241, 1)',
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            order: 2
+                        },
+                        {
+                            label: '任务数量',
+                            data: tasks,
+                            type: 'line',
+                            borderColor: 'rgba(6, 182, 212, 1)',
+                            backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            pointBackgroundColor: 'rgba(6, 182, 212, 1)',
+                            tension: 0.4,
+                            fill: true,
+                            order: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 22, 41, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: 'rgba(255,255,255,0.7)',
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(255,255,255,0.5)'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: 'rgba(255,255,255,0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(255,255,255,0.5)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 工作类型分布图表初始化
+        function initTypeChart() {
+            const ctx = document.getElementById('typeChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['功能开发', '问题修复', '系统优化', '技术研究', '对接调试'],
+                    datasets: [{
+                        data: [40, 25, 15, 10, 10],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(236, 72, 153, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(99, 102, 241, 1)',
+                            'rgba(139, 92, 246, 1)',
+                            'rgba(6, 182, 212, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(236, 72, 153, 1)'
+                        ],
+                        borderWidth: 2,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'rgba(255,255,255,0.7)',
+                                padding: 15,
+                                usePointStyle: true,
+                                pointStyle: 'circle'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 22, 41, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: 'rgba(255,255,255,0.7)',
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8
+                        }
+                    }
+                }
+            });
+        }
+        
+        // 图表初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            document.querySelector('.fade-in-up').classList.add('visible');
+            
+            // 月度工作量图表
+            initMonthlyChart();
+            
+            // 工作类型分布图表
+            initTypeChart();
+            
+            // 技能雷达图
+            const skillsRadarCtx = document.getElementById('skillsRadarChart').getContext('2d');
+            new Chart(skillsRadarCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Java开发', 'Spring生态', '电商平台对接', 'AI应用', '搜索引擎', '系统部署', '问题排查'],
+                    datasets: [{
+                        label: '当前技能水平',
+                        data: [85, 90, 80, 75, 70, 75, 85],
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(99, 102, 241, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255,255,255,0.1)' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            pointLabels: { color: 'rgba(255,255,255,0.6)' },
+                            ticks: { display: false },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+            
+            // 任务类型分布图
+            const taskTypeCtx = document.getElementById('taskTypeChart').getContext('2d');
+            new Chart(taskTypeCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['电商平台', '供应链系统', 'AI相关', '定制项目', '其他'],
+                    datasets: [{
+                        data: [35, 25, 15, 20, 5],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(100, 116, 139, 0.8)'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: 'rgba(255,255,255,0.6)',
+                                padding: 12,
+                                font: { size: 11 }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 项目时间投入图
+            const projectTimeCtx = document.getElementById('projectTimeChart').getContext('2d');
+            new Chart(projectTimeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['1688项目', '多平台对接', '类目匹配', '循链项目', '冷链项目', '洲际商会'],
+                    datasets: [{
+                        label: '投入工作天数',
+                        data: [45, 30, 25, 60, 40, 20],
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(236, 72, 153, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(6, 182, 212, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)'
+                        ],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
