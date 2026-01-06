@@ -18,6 +18,7 @@
     
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -41,6 +42,15 @@
         }
     </script>
     
+    <!-- 主题初始化脚本 - 防止闪烁 -->
+    <script>
+        // 从 localStorage 读取主题，默认 dark
+        const theme = localStorage.getItem('theme') || 'dark';
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    
     <style>
         /* 自定义滚动条 */
         ::-webkit-scrollbar {
@@ -54,14 +64,26 @@
             border-radius: 4px;
         }
         
-        /* Aurora 渐变背景动画 */
-        .aurora-bg {
+        /* Aurora 渐变背景动画 - Dark 模式 */
+        .dark .aurora-bg {
             background: linear-gradient(135deg, 
                 #0A0E1A 0%, 
                 #1A1040 25%, 
                 #0A0E1A 50%, 
                 #0A2540 75%, 
                 #0A0E1A 100%);
+            background-size: 400% 400%;
+            animation: aurora 15s ease-in-out infinite;
+        }
+        
+        /* Aurora 渐变背景动画 - Light 模式 */
+        .aurora-bg {
+            background: linear-gradient(135deg, 
+                #F8FAFC 0%, 
+                #EDE9FE 25%, 
+                #F8FAFC 50%, 
+                #E0F2FE 75%, 
+                #F8FAFC 100%);
             background-size: 400% 400%;
             animation: aurora 15s ease-in-out infinite;
         }
@@ -76,10 +98,15 @@
             position: fixed;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.4;
             pointer-events: none;
             z-index: 0;
+            transition: opacity 0.5s ease;
         }
+        
+        /* Dark 模式光效 */
+        .dark .glow-orb { opacity: 0.4; }
+        /* Light 模式光效 - 更淡 */
+        .glow-orb { opacity: 0.25; }
         
         .glow-orb-1 {
             width: 600px;
@@ -124,8 +151,8 @@
             50% { transform: translate(60px, -40px); }
         }
         
-        /* 玻璃拟态卡片 */
-        .glass-card {
+        /* 玻璃拟态卡片 - Dark 模式 */
+        .dark .glass-card {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -135,17 +162,39 @@
                 inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
         
+        /* 玻璃拟态卡片 - Light 模式 */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 
+                0 8px 32px rgba(99, 102, 241, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
+        }
+        
         .glass-card-hover {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .glass-card-hover:hover {
+        /* Dark 模式悬停 */
+        .dark .glass-card-hover:hover {
             background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.15);
             transform: translateY(-4px);
             box-shadow: 
                 0 20px 40px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Light 模式悬停 */
+        .glass-card-hover:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(99, 102, 241, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 1);
         }
         
         /* 渐变文字 */
@@ -201,16 +250,27 @@
             background: linear-gradient(180deg, #6366F1, #8B5CF6, #06B6D4);
         }
         
-        /* 技能标签 */
-        .skill-tag {
+        /* 技能标签 - Dark 模式 */
+        .dark .skill-tag {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
             border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .dark .skill-tag:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4));
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+        
+        /* 技能标签 - Light 模式 */
+        .skill-tag {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(99, 102, 241, 0.25);
             transition: all 0.3s ease;
         }
         
         .skill-tag:hover {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4), rgba(139, 92, 246, 0.4));
-            border-color: rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(139, 92, 246, 0.25));
+            border-color: rgba(99, 102, 241, 0.4);
             transform: translateY(-2px);
         }
         
@@ -225,12 +285,17 @@
             transform-origin: left;
         }
         
-        /* 粒子效果 */
+        /* 粒子效果 - Dark 模式 */
+        .dark .particle {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 粒子效果 - Light 模式 */
         .particle {
             position: fixed;
             width: 4px;
             height: 4px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(99, 102, 241, 0.4);
             border-radius: 50%;
             pointer-events: none;
             animation: particleFloat 15s linear infinite;
@@ -243,17 +308,99 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
         
-        /* 鼠标跟随光效 */
+        /* 鼠标跟随光效 - Dark 模式 */
+        .dark .cursor-glow {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        }
+        
+        /* 鼠标跟随光效 - Light 模式 */
         .cursor-glow {
             position: fixed;
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 1;
             transform: translate(-50%, -50%);
             transition: opacity 0.3s;
+        }
+        
+        /* 主题切换按钮 */
+        .theme-toggle {
+            position: relative;
+            width: 44px;
+            height: 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dark .theme-toggle {
+            background: rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+        }
+        
+        .theme-toggle {
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+        
+        .theme-toggle-knob {
+            position: absolute;
+            top: 2px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark .theme-toggle-knob {
+            left: 22px;
+            background: #6366F1;
+        }
+        
+        .theme-toggle-knob {
+            left: 2px;
+            background: #F59E0B;
+        }
+        
+        .theme-toggle-knob svg {
+            width: 12px;
+            height: 12px;
+        }
+        
+        .dark .theme-toggle-knob svg {
+            color: #fff;
+        }
+        
+        .theme-toggle-knob svg {
+            color: #fff;
+        }
+        
+        /* Light 模式文字颜色调整 */
+        .light-text {
+            transition: color 0.3s ease;
+        }
+        
+        .dark .light-text {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .light-text {
+            color: #475569;
+        }
+        
+        .dark .light-text-strong {
+            color: #fff;
+        }
+        
+        .light-text-strong {
+            color: #0F172A;
         }
         
         /* 减少动画偏好 */
@@ -266,7 +413,7 @@
         }
     </style>
 </head>
-<body class="aurora-bg min-h-screen text-white font-sans overflow-x-hidden">
+<body class="aurora-bg min-h-screen font-sans overflow-x-hidden dark:text-white text-slate-900 transition-colors duration-300">
     <!-- 滚动进度指示器 -->
     <div class="scroll-progress" id="scrollProgress"></div>
     
@@ -285,17 +432,31 @@
     <nav class="fixed top-4 left-4 right-4 z-50">
         <div class="glass-card rounded-2xl px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-display font-bold text-lg">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center font-display font-bold text-lg text-white">
                     虎
                 </div>
-                <span class="font-display font-semibold text-lg hidden sm:block">刘虎 · 2025</span>
+                <span class="font-display font-semibold text-lg hidden sm:block dark:text-white text-slate-900">刘虎 · 2025</span>
             </div>
-            <div class="flex items-center gap-6 text-sm font-medium">
-                <a href="#overview" class="text-white/60 hover:text-white transition-colors cursor-pointer">概览</a>
-                <a href="#projects" class="text-white/60 hover:text-white transition-colors cursor-pointer">项目</a>
-                <a href="#timeline" class="text-white/60 hover:text-white transition-colors cursor-pointer">时间线</a>
-                <a href="#skills" class="text-white/60 hover:text-white transition-colors cursor-pointer">技能</a>
-                <a href="#future" class="text-white/60 hover:text-white transition-colors cursor-pointer">展望</a>
+            <div class="flex items-center gap-4 sm:gap-6 text-sm font-medium">
+                <a href="#overview" class="dark:text-white/60 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-colors cursor-pointer hidden sm:block">概览</a>
+                <a href="#projects" class="dark:text-white/60 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-colors cursor-pointer hidden sm:block">项目</a>
+                <a href="#timeline" class="dark:text-white/60 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-colors cursor-pointer hidden sm:block">时间线</a>
+                <a href="#skills" class="dark:text-white/60 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-colors cursor-pointer hidden sm:block">技能</a>
+                <a href="#future" class="dark:text-white/60 text-slate-500 dark:hover:text-white hover:text-slate-900 transition-colors cursor-pointer hidden sm:block">展望</a>
+                
+                <!-- 主题切换按钮 -->
+                <button id="themeToggle" class="theme-toggle" aria-label="切换主题">
+                    <div class="theme-toggle-knob">
+                        <!-- 太阳图标 (Light 模式) -->
+                        <svg class="sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                        <!-- 月亮图标 (Dark 模式) -->
+                        <svg class="moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </div>
+                </button>
             </div>
         </div>
     </nav>
@@ -306,51 +467,51 @@
             <!-- 年份徽章 -->
             <div class="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2 mb-8">
                 <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                <span class="text-white/70 text-sm font-medium">年度工作报告</span>
+                <span class="dark:text-white/70 text-slate-600 text-sm font-medium">年度工作报告</span>
             </div>
             
             <!-- 主标题 -->
             <h1 class="font-display text-6xl sm:text-7xl md:text-8xl font-bold mb-6 leading-tight">
                 <span class="gradient-text">2025</span>
                 <br>
-                <span class="text-white">年度报告</span>
+                <span class="dark:text-white text-slate-900">年度报告</span>
             </h1>
             
             <!-- 副标题 -->
-            <p class="text-xl sm:text-2xl text-white/60 mb-4 font-light">
+            <p class="text-xl sm:text-2xl dark:text-white/60 text-slate-600 mb-4 font-light">
                 技术创造价值 · 代码驱动未来
             </p>
             
             <div class="flex items-center justify-center gap-2 mb-12">
                 <span class="text-3xl font-display font-semibold gradient-text-warm">刘虎</span>
-                <span class="text-white/40">|</span>
-                <span class="text-white/60">全栈开发工程师</span>
+                <span class="dark:text-white/40 text-slate-400">|</span>
+                <span class="dark:text-white/60 text-slate-600">全栈开发工程师</span>
             </div>
             
             <!-- 快速统计 -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
                 <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
                     <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">892</div>
-                    <div class="text-white/50 text-sm mt-1">完成任务</div>
+                    <div class="dark:text-white/50 text-slate-500 text-sm mt-1">完成任务</div>
                 </div>
                 <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
                     <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">8</div>
-                    <div class="text-white/50 text-sm mt-1">核心项目</div>
+                    <div class="dark:text-white/50 text-slate-500 text-sm mt-1">核心项目</div>
                 </div>
                 <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
                     <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">242</div>
-                    <div class="text-white/50 text-sm mt-1">工作日</div>
+                    <div class="dark:text-white/50 text-slate-500 text-sm mt-1">工作日</div>
                 </div>
                 <div class="glass-card glass-card-hover rounded-2xl p-5 cursor-pointer">
                     <div class="text-3xl sm:text-4xl font-display font-bold gradient-text">2150</div>
-                    <div class="text-white/50 text-sm mt-1">工时投入</div>
+                    <div class="dark:text-white/50 text-slate-500 text-sm mt-1">工时投入</div>
                 </div>
             </div>
             
             <!-- 向下滚动提示 -->
             <div class="mt-16 animate-bounce">
                 <a href="#overview" class="cursor-pointer">
-                    <svg class="w-6 h-6 mx-auto text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 mx-auto dark:text-white/30 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                     </svg>
                 </a>
@@ -363,22 +524,22 @@
         <!-- 年度概览 -->
         <section id="overview" class="py-24 scroll-mt-20">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">年度<span class="gradient-text">概览</span></h2>
-                <p class="text-white/50 text-lg">全年工作数据一览</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4 dark:text-white text-slate-900">年度<span class="gradient-text">概览</span></h2>
+                <p class="dark:text-white/50 text-slate-500 text-lg">全年工作数据一览</p>
             </div>
             
             <!-- 月度工作量图表 -->
             <div class="glass-card rounded-3xl p-6 sm:p-8 mb-8 fade-in-up">
                 <div class="flex items-center justify-between mb-6">
-                    <h3 class="font-display text-xl font-semibold">月度工作量分布</h3>
+                    <h3 class="font-display text-xl font-semibold dark:text-white text-slate-900">月度工作量分布</h3>
                     <div class="flex items-center gap-4 text-sm">
                         <div class="flex items-center gap-2">
                             <div class="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-secondary"></div>
-                            <span class="text-white/60">工作日数</span>
+                            <span class="dark:text-white/60 text-slate-500">工作日数</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <div class="w-3 h-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></div>
-                            <span class="text-white/60">任务数量</span>
+                            <span class="dark:text-white/60 text-slate-500">任务数量</span>
                         </div>
                     </div>
                 </div>
@@ -390,14 +551,14 @@
             <!-- 工作类型分布 -->
             <div class="grid md:grid-cols-2 gap-8 mb-8">
                 <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                    <h3 class="font-display text-xl font-semibold mb-6">工作类型分布</h3>
+                    <h3 class="font-display text-xl font-semibold mb-6 dark:text-white text-slate-900">工作类型分布</h3>
                     <div class="h-64">
                         <canvas id="typeChart"></canvas>
                     </div>
                 </div>
                 
                 <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                    <h3 class="font-display text-xl font-semibold mb-6">任务类型分布</h3>
+                    <h3 class="font-display text-xl font-semibold mb-6 dark:text-white text-slate-900">任务类型分布</h3>
                     <div class="h-64">
                         <canvas id="taskTypeChart"></canvas>
                     </div>
@@ -406,7 +567,7 @@
             
             <!-- 主要项目投入时间 -->
             <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                <h3 class="font-display text-xl font-semibold mb-6">主要项目投入时间</h3>
+                <h3 class="font-display text-xl font-semibold mb-6 dark:text-white text-slate-900">主要项目投入时间</h3>
                 <div class="h-72">
                     <canvas id="projectTimeChart"></canvas>
                 </div>
@@ -416,10 +577,10 @@
         <!-- 项目成果 -->
         <section id="projects" class="py-24 scroll-mt-20">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4 dark:text-white text-slate-900">
                     重点<span class="gradient-text">项目</span>成果
                 </h2>
-                <p class="text-white/50 text-lg">全年参与的核心项目及取得的关键成果</p>
+                <p class="dark:text-white/50 text-slate-500 text-lg">全年参与的核心项目及取得的关键成果</p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -431,14 +592,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-amber-500/20 text-amber-400 mb-3">电商平台</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">1688供应链分销</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成1688货源对接、代销商品管理、消息订阅、SPI接口开发等核心功能</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">1688供应链分销</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">完成1688货源对接、代销商品管理、消息订阅、SPI接口开发等核心功能</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">货源对接</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">消息订阅</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">货源对接</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">消息订阅</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 1-6月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 1-6月</span>
                     </div>
                 </div>
                 
@@ -450,14 +611,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-pink-500/20 text-pink-400 mb-3">电商平台</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">多电商平台对接</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成小红书、抖店、快手、拼多多等平台的接口对接与功能开发</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">多电商平台对接</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">完成小红书、抖店、快手、拼多多等平台的接口对接与功能开发</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">接口开发</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">批量操作</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">接口开发</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">批量操作</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 1-4月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 1-4月</span>
                     </div>
                 </div>
                 
@@ -469,14 +630,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-violet-500/20 text-violet-400 mb-3">AI相关</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">类目匹配与属性预测</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">基于Lucene实现类目相似度检索，使用LLM推断商品属性值</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">类目匹配与属性预测</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">基于Lucene实现类目相似度检索，使用LLM推断商品属性值</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">LLM应用</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">Lucene</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">LLM应用</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">Lucene</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 2-5月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 2-5月</span>
                     </div>
                 </div>
                 
@@ -488,14 +649,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-cyan-500/20 text-cyan-400 mb-3">供应链</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">循链项目</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">从零搭建循链平台，完成采购计划、订单管理、运单调度、WebSocket消息</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">循链项目</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">从零搭建循链平台，完成采购计划、订单管理、运单调度、WebSocket消息</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">订单系统</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">运单调度</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">订单系统</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">运单调度</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 4-10月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 4-10月</span>
                     </div>
                 </div>
                 
@@ -507,14 +668,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-blue-500/20 text-blue-400 mb-3">定制项目</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">冷链TMS</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">完成SpringBoot3.x升级改造，SAAS计费版本开发，微信小程序对接</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">冷链TMS</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">完成SpringBoot3.x升级改造，SAAS计费版本开发，微信小程序对接</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">系统升级</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">SAAS计费</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">系统升级</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">SAAS计费</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 6-11月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 6-11月</span>
                     </div>
                 </div>
                 
@@ -526,14 +687,14 @@
                         </svg>
                     </div>
                     <span class="inline-block px-3 py-1 rounded-full text-xs bg-emerald-500/20 text-emerald-400 mb-3">定制项目</span>
-                    <h3 class="font-display text-xl font-semibold mb-2">洲际商会</h3>
-                    <p class="text-white/50 text-sm mb-4 leading-relaxed">跨境贸易平台，支持多角色订单流转、合同签署、保证金管理、国际化</p>
+                    <h3 class="font-display text-xl font-semibold mb-2 dark:text-white text-slate-900">洲际商会</h3>
+                    <p class="dark:text-white/50 text-slate-500 text-sm mb-4 leading-relaxed">跨境贸易平台，支持多角色订单流转、合同签署、保证金管理、国际化</p>
                     <div class="flex flex-wrap gap-2">
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">多语言</span>
-                        <span class="skill-tag px-3 py-1 rounded-full text-xs text-white/70">订单管理</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">多语言</span>
+                        <span class="skill-tag px-3 py-1 rounded-full text-xs dark:text-white/70 text-slate-600">订单管理</span>
                     </div>
-                    <div class="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
-                        <span class="text-xs text-white/40">持续时间: 9-11月</span>
+                    <div class="mt-4 pt-4 dark:border-white/10 border-slate-200 border-t flex justify-between items-center">
+                        <span class="text-xs dark:text-white/40 text-slate-400">持续时间: 9-11月</span>
                     </div>
                 </div>
             </div>
@@ -542,8 +703,8 @@
         <!-- 成长轨迹时间线 -->
         <section id="timeline" class="py-24 scroll-mt-20">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">时间<span class="gradient-text">轨迹</span></h2>
-                <p class="text-white/50 text-lg">每月精彩回顾</p>
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4 dark:text-white text-slate-900">时间<span class="gradient-text">轨迹</span></h2>
+                <p class="dark:text-white/50 text-slate-500 text-lg">每月精彩回顾</p>
             </div>
             
             <div class="relative">
@@ -558,26 +719,26 @@
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">1月</span>
-                                    <span class="text-white/40 text-sm">新年启航</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">新年启航</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">1688货源对接正式发版，完成商品代销、消息订阅等核心功能</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">1688货源对接正式发版，完成商品代销、消息订阅等核心功能</p>
                             </div>
                         </div>
-                        <div class="hidden md:flex w-4 h-4 bg-primary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-primary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12"></div>
                     </div>
                     
                     <!-- 2月 -->
                     <div class="md:flex items-center fade-in-up">
                         <div class="md:w-1/2 md:pr-12"></div>
-                        <div class="hidden md:flex w-4 h-4 bg-secondary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-secondary rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12">
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">2月</span>
-                                    <span class="text-white/40 text-sm">技术探索</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">技术探索</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">小红书开放平台对接启动，电商类目相似度检索算法研发</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">小红书开放平台对接启动，电商类目相似度检索算法研发</p>
                             </div>
                         </div>
                     </div>
@@ -588,26 +749,26 @@
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">3月</span>
-                                    <span class="text-white/40 text-sm">多线并进</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">多线并进</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">小红书发品功能上线，淘宝平台接口风控改造，AI属性预测探索</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">小红书发品功能上线，淘宝平台接口风控改造，AI属性预测探索</p>
                             </div>
                         </div>
-                        <div class="hidden md:flex w-4 h-4 bg-cyan-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-cyan-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12"></div>
                     </div>
                     
                     <!-- 4-5月 -->
                     <div class="md:flex items-center fade-in-up">
                         <div class="md:w-1/2 md:pr-12"></div>
-                        <div class="hidden md:flex w-4 h-4 bg-amber-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-amber-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12">
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">4-5月</span>
-                                    <span class="text-white/40 text-sm">循链诞生</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">循链诞生</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">循链项目从零搭建，完成采购计划、订单管理、运单调度、消息系统全流程</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">循链项目从零搭建，完成采购计划、订单管理、运单调度、消息系统全流程</p>
                             </div>
                         </div>
                     </div>
@@ -618,26 +779,26 @@
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">6-7月</span>
-                                    <span class="text-white/40 text-sm">平台升级</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">平台升级</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">冷链TMS项目改造升级，微信小程序开发，ruoyi-plus框架研究实践</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">冷链TMS项目改造升级，微信小程序开发，ruoyi-plus框架研究实践</p>
                             </div>
                         </div>
-                        <div class="hidden md:flex w-4 h-4 bg-emerald-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-emerald-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12"></div>
                     </div>
                     
                     <!-- 8-9月 -->
                     <div class="md:flex items-center fade-in-up">
                         <div class="md:w-1/2 md:pr-12"></div>
-                        <div class="hidden md:flex w-4 h-4 bg-pink-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-pink-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12">
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">8-9月</span>
-                                    <span class="text-white/40 text-sm">商业化落地</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">商业化落地</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">冷链SAAS计费版本开发，洲际商会项目启动，订单流程设计开发</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">冷链SAAS计费版本开发，洲际商会项目启动，订单流程设计开发</p>
                             </div>
                         </div>
                     </div>
@@ -648,26 +809,26 @@
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 md:flex-row-reverse mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">10-11月</span>
-                                    <span class="text-white/40 text-sm">深耕细作</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">深耕细作</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">洲际商会订单合同流程完善，多角色系统优化，自定义费用功能开发</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">洲际商会订单合同流程完善，多角色系统优化，自定义费用功能开发</p>
                             </div>
                         </div>
-                        <div class="hidden md:flex w-4 h-4 bg-violet-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-violet-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12"></div>
                     </div>
                     
                     <!-- 12月 -->
                     <div class="md:flex items-center fade-in-up">
                         <div class="md:w-1/2 md:pr-12"></div>
-                        <div class="hidden md:flex w-4 h-4 bg-rose-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 ring-dark-900"></div>
+                        <div class="hidden md:flex w-4 h-4 bg-rose-400 rounded-full absolute left-1/2 transform -translate-x-1/2 ring-4 dark:ring-dark-900 ring-white"></div>
                         <div class="md:w-1/2 md:pl-12">
                             <div class="glass-card glass-card-hover rounded-2xl p-5 inline-block cursor-pointer">
                                 <div class="flex items-center gap-3 mb-3">
                                     <span class="text-2xl font-display font-bold gradient-text">12月</span>
-                                    <span class="text-white/40 text-sm">收官之战</span>
+                                    <span class="dark:text-white/40 text-slate-400 text-sm">收官之战</span>
                                 </div>
-                                <p class="text-white/60 text-sm leading-relaxed">鲲链TMS-Pro框架搭建，多租户架构设计，1688改造对接，完美收官</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm leading-relaxed">鲲链TMS-Pro框架搭建，多租户架构设计，1688改造对接，完美收官</p>
                             </div>
                         </div>
                     </div>
@@ -678,16 +839,16 @@
         <!-- 技能提升 -->
         <section id="skills" class="py-24 scroll-mt-20">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4 dark:text-white text-slate-900">
                     技能<span class="gradient-text">图谱</span>
                 </h2>
-                <p class="text-white/50 text-lg">2025年掌握的新技术与技能提升情况</p>
+                <p class="dark:text-white/50 text-slate-500 text-lg">2025年掌握的新技术与技能提升情况</p>
             </div>
             
             <div class="grid lg:grid-cols-2 gap-8">
                 <!-- 技能雷达图 -->
                 <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                    <h3 class="font-display text-xl font-semibold mb-6">技能掌握程度</h3>
+                    <h3 class="font-display text-xl font-semibold mb-6 dark:text-white text-slate-900">技能掌握程度</h3>
                     <div class="h-80">
                         <canvas id="skillsRadarChart"></canvas>
                     </div>
@@ -695,74 +856,74 @@
                 
                 <!-- 技术学习进度 -->
                 <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                    <h3 class="font-display text-xl font-semibold mb-6">年度技术学习</h3>
+                    <h3 class="font-display text-xl font-semibold mb-6 dark:text-white text-slate-900">年度技术学习</h3>
                     
                     <div class="space-y-5">
                         <div>
                             <div class="flex justify-between mb-2 text-sm">
-                                <span class="text-white/80">AI与LLM应用</span>
+                                <span class="dark:text-white/80 text-slate-700">AI与LLM应用</span>
                                 <span class="text-violet-400">85%</span>
                             </div>
-                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-2 dark:bg-white/5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="progress-bar h-full rounded-full bg-gradient-to-r from-violet-400 to-purple-500" style="width: 85%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-2 text-sm">
-                                <span class="text-white/80">Spring Boot 3.x</span>
+                                <span class="dark:text-white/80 text-slate-700">Spring Boot 3.x</span>
                                 <span class="text-emerald-400">90%</span>
                             </div>
-                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-2 dark:bg-white/5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="progress-bar h-full rounded-full bg-gradient-to-r from-emerald-400 to-green-500" style="width: 90%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-2 text-sm">
-                                <span class="text-white/80">Lucene搜索引擎</span>
+                                <span class="dark:text-white/80 text-slate-700">Lucene搜索引擎</span>
                                 <span class="text-primary">75%</span>
                             </div>
-                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-2 dark:bg-white/5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="progress-bar h-full rounded-full bg-gradient-to-r from-primary to-secondary" style="width: 75%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-2 text-sm">
-                                <span class="text-white/80">Docker容器化</span>
+                                <span class="dark:text-white/80 text-slate-700">Docker容器化</span>
                                 <span class="text-amber-400">70%</span>
                             </div>
-                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-2 dark:bg-white/5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="progress-bar h-full rounded-full bg-gradient-to-r from-amber-400 to-orange-500" style="width: 70%"></div>
                             </div>
                         </div>
                         
                         <div>
                             <div class="flex justify-between mb-2 text-sm">
-                                <span class="text-white/80">低代码平台</span>
+                                <span class="dark:text-white/80 text-slate-700">低代码平台</span>
                                 <span class="text-cyan-400">65%</span>
                             </div>
-                            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-2 dark:bg-white/5 bg-slate-200 rounded-full overflow-hidden">
                                 <div class="progress-bar h-full rounded-full bg-gradient-to-r from-cyan-400 to-blue-500" style="width: 65%"></div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mt-8 pt-6 border-t border-white/10">
-                        <h4 class="text-lg font-semibold mb-4">技术学习记录</h4>
+                    <div class="mt-8 pt-6 dark:border-white/10 border-slate-200 border-t">
+                        <h4 class="text-lg font-semibold mb-4 dark:text-white text-slate-900">技术学习记录</h4>
                         <div class="space-y-3">
                             <div class="flex items-start gap-3">
                                 <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                                <p class="text-white/60 text-sm">研究低代码平台、开源企业后台管理系统、ruoyi-plus框架等</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm">研究低代码平台、开源企业后台管理系统、ruoyi-plus框架等</p>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                                <p class="text-white/60 text-sm">学习并实践多模态模型部署与应用、Lucene搜索引擎</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm">学习并实践多模态模型部署与应用、Lucene搜索引擎</p>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="w-2 h-2 rounded-full bg-primary mt-2"></div>
-                                <p class="text-white/60 text-sm">参与AI相关分享会和评审会，了解AI工具的使用和发展</p>
+                                <p class="dark:text-white/60 text-slate-500 text-sm">参与AI相关分享会和评审会，了解AI工具的使用和发展</p>
                             </div>
                         </div>
                     </div>
@@ -773,10 +934,10 @@
         <!-- 2026年工作计划 -->
         <section id="future" class="py-24 scroll-mt-20">
             <div class="text-center mb-16 fade-in-up">
-                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4">
+                <h2 class="font-display text-4xl sm:text-5xl font-bold mb-4 dark:text-white text-slate-900">
                     <span class="gradient-text-warm">2026</span> 年工作计划
                 </h2>
-                <p class="text-white/50 text-lg">未来一年的工作规划与发展方向</p>
+                <p class="dark:text-white/50 text-slate-500 text-lg">未来一年的工作规划与发展方向</p>
             </div>
             
             <div class="grid md:grid-cols-2 gap-8 mb-12">
@@ -789,33 +950,33 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
                         </div>
-                        <h3 class="font-display text-xl font-semibold">系统优化与维护</h3>
+                        <h3 class="font-display text-xl font-semibold dark:text-white text-slate-900">系统优化与维护</h3>
                     </div>
-                    <p class="text-white/50 mb-4">跟进现有项目的优化和维护，保障系统稳定运行，提升用户体验。</p>
+                    <p class="dark:text-white/50 text-slate-500 mb-4">跟进现有项目的优化和维护，保障系统稳定运行，提升用户体验。</p>
                     <ul class="space-y-3">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">1688及多平台对接&稳定的保证</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">1688及多平台对接&稳定的保证</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">洲际商会维护二期开发</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">洲际商会维护二期开发</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">冷链系统功能完善</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">冷链系统功能完善</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-primary mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">锦亚海tms项目开发&后续维护</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">锦亚海tms项目开发&后续维护</span>
                         </li>
                     </ul>
                 </div>
@@ -828,33 +989,33 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                             </svg>
                         </div>
-                        <h3 class="font-display text-xl font-semibold">AI赋能</h3>
+                        <h3 class="font-display text-xl font-semibold dark:text-white text-slate-900">AI赋能</h3>
                     </div>
-                    <p class="text-white/50 mb-4">深入LLM应用开发，探索AI工程最佳实践，用AI提效日常开发。</p>
+                    <p class="dark:text-white/50 text-slate-500 mb-4">深入LLM应用开发，探索AI工程最佳实践，用AI提效日常开发。</p>
                     <ul class="space-y-3">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">深入LLM应用开发，构建智能Agent系统</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">深入LLM应用开发，构建智能Agent系统</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">探索RAG、Function Calling等AI工程实践</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">探索RAG、Function Calling等AI工程实践</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">用AI提效日常开发，探索Cursor、Claude Code最佳实践</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">用AI提效日常开发，探索Cursor、Claude Code最佳实践</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-violet-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">时刻关注国产AI模型发展，探索国产模型可替代方案</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">时刻关注国产AI模型发展，探索国产模型可替代方案</span>
                         </li>
                     </ul>
                 </div>
@@ -867,27 +1028,27 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
                         </div>
-                        <h3 class="font-display text-xl font-semibold">项目架构升级</h3>
+                        <h3 class="font-display text-xl font-semibold dark:text-white text-slate-900">项目架构升级</h3>
                     </div>
-                    <p class="text-white/50 mb-4">继续深耕现有业务，推动项目架构升级与AI开发工程化改造。</p>
+                    <p class="dark:text-white/50 text-slate-500 mb-4">继续深耕现有业务，推动项目架构升级与AI开发工程化改造。</p>
                     <ul class="space-y-3">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">完善鲲链TMS-Pro多租户架构落地</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">完善鲲链TMS-Pro多租户架构落地</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">推动新增项目前后端一体化开发落地</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">推动新增项目前后端一体化开发落地</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">持续优化已有项目的AI开发体验</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">持续优化已有项目的AI开发体验</span>
                         </li>
                     </ul>
                 </div>
@@ -900,27 +1061,27 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
                             </svg>
                         </div>
-                        <h3 class="font-display text-xl font-semibold">个人成长</h3>
+                        <h3 class="font-display text-xl font-semibold dark:text-white text-slate-900">个人成长</h3>
                     </div>
-                    <p class="text-white/50 mb-4">持续学习与输出，提升技术影响力，平衡工作与生活。</p>
+                    <p class="dark:text-white/50 text-slate-500 mb-4">持续学习与输出，提升技术影响力，平衡工作与生活。</p>
                     <ul class="space-y-3">
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">输出技术博客文章，分享实战经验</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">输出技术博客文章，分享实战经验</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">参与开源项目贡献，提升技术影响力</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">参与开源项目贡献，提升技术影响力</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
-                            <span class="text-white/70 text-sm">保持健康生活，平衡工作与生活</span>
+                            <span class="dark:text-white/70 text-slate-600 text-sm">保持健康生活，平衡工作与生活</span>
                         </li>
                     </ul>
                 </div>
@@ -928,7 +1089,7 @@
             
             <!-- 年度关键词 -->
             <div class="glass-card rounded-3xl p-6 sm:p-8 fade-in-up">
-                <h3 class="font-display text-xl font-semibold mb-6 text-center">2026 年度关键词</h3>
+                <h3 class="font-display text-xl font-semibold mb-6 text-center dark:text-white text-slate-900">2026 年度关键词</h3>
                 <div class="flex flex-wrap justify-center gap-4">
                     <span class="px-6 py-3 rounded-full bg-gradient-to-r from-primary/30 to-secondary/30 border border-primary/40 text-white font-medium cursor-pointer hover:scale-105 transition-transform">
                         AI Agent
@@ -959,11 +1120,11 @@
                         </svg>
                     </div>
                     
-                    <h2 class="font-display text-3xl sm:text-4xl font-bold mb-6">
+                    <h2 class="font-display text-3xl sm:text-4xl font-bold mb-6 dark:text-white text-slate-900">
                         <span class="gradient-text">2025</span>，感谢奋斗的自己
                     </h2>
                     
-                    <p class="text-white/60 text-lg leading-relaxed mb-8">
+                    <p class="dark:text-white/60 text-slate-500 text-lg leading-relaxed mb-8">
                         这一年，从1688供应链到循链平台，从小红书对接到洲际商会，每一行代码都承载着成长与突破。
                         技术在进步，业务在深耕，AI在探索。感谢每一个挑战，让我变得更加强大。
                     </p>
@@ -971,32 +1132,32 @@
                     <div class="flex items-center justify-center gap-4 flex-wrap">
                         <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
                             <div class="w-2 h-2 rounded-full bg-green-400"></div>
-                            <span class="text-white/70">持续学习</span>
+                            <span class="dark:text-white/70 text-slate-600">持续学习</span>
                         </div>
                         <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
                             <div class="w-2 h-2 rounded-full bg-blue-400"></div>
-                            <span class="text-white/70">稳步成长</span>
+                            <span class="dark:text-white/70 text-slate-600">稳步成长</span>
                         </div>
                         <div class="glass-card rounded-full px-6 py-3 flex items-center gap-2">
                             <div class="w-2 h-2 rounded-full bg-purple-400"></div>
-                            <span class="text-white/70">勇于创新</span>
+                            <span class="dark:text-white/70 text-slate-600">勇于创新</span>
                         </div>
                     </div>
                     
                     <!-- 个人箴言 -->
-                    <div class="mt-10 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-white/5">
-                        <p class="text-white/70 text-base italic leading-relaxed">
+                    <div class="mt-10 p-6 rounded-2xl bg-gradient-to-r from-primary/10 to-secondary/10 dark:border-white/5 border-primary/10 border">
+                        <p class="dark:text-white/70 text-slate-600 text-base italic leading-relaxed">
                             每一行代码都是一次对话，每一个项目都是一次成长。<br>
                             2025年的征程已经落幕，但技术探索的脚步永不停歇。
                         </p>
-                        <p class="text-right mt-4 text-white/50 text-sm">—— 刘虎</p>
+                        <p class="text-right mt-4 dark:text-white/50 text-slate-400 text-sm">—— 刘虎</p>
                     </div>
                     
-                    <div class="mt-12 pt-8 border-t border-white/10">
-                        <p class="text-white/40 text-sm">
-                            <span class="font-display font-semibold text-white/60">刘虎</span> · 全栈开发工程师
+                    <div class="mt-12 pt-8 dark:border-white/10 border-slate-200 border-t">
+                        <p class="dark:text-white/40 text-slate-400 text-sm">
+                            <span class="font-display font-semibold dark:text-white/60 text-slate-600">刘虎</span> · 全栈开发工程师
                         </p>
-                        <p class="text-white/30 text-xs mt-2">2026年，继续前行</p>
+                        <p class="dark:text-white/30 text-slate-400 text-xs mt-2">2026年，继续前行</p>
                     </div>
                 </div>
             </div>
@@ -1004,15 +1165,71 @@
     </main>
 
     <!-- 页脚 -->
-    <footer class="py-12 px-4 border-t border-white/5">
+    <footer class="py-12 px-4 dark:border-white/5 border-slate-200 border-t">
         <div class="max-w-6xl mx-auto text-center">
-            <p class="text-white/30 text-sm">
-                © 2025 刘虎 · 年度工作报告 · Made with ❤️
+            <p class="dark:text-white/30 text-slate-400 text-sm">
+                © 2025 刘虎 · 年度工作报告
             </p>
         </div>
     </footer>
 
     <script>
+        // 主题切换逻辑
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const sunIcon = themeToggle.querySelector('.sun-icon');
+            const moonIcon = themeToggle.querySelector('.moon-icon');
+            
+            // 更新图标显示
+            function updateIcons() {
+                const isDark = document.documentElement.classList.contains('dark');
+                sunIcon.style.display = isDark ? 'none' : 'block';
+                moonIcon.style.display = isDark ? 'block' : 'none';
+            }
+            
+            // 初始化图标
+            updateIcons();
+            
+            // 切换主题
+            themeToggle.addEventListener('click', () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                updateIcons();
+                
+                // 更新图表颜色
+                updateChartsTheme(isDark);
+            });
+        }
+        
+        // 更新图表主题色
+        function updateChartsTheme(isDark) {
+            const textColor = isDark ? 'rgba(255,255,255,0.5)' : 'rgba(71,85,105,1)';
+            const gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(226,232,240,1)';
+            
+            // 遍历所有图表实例并更新
+            Chart.helpers.each(Chart.instances, (chart) => {
+                if (chart.options.scales) {
+                    if (chart.options.scales.x) {
+                        chart.options.scales.x.ticks.color = textColor;
+                        chart.options.scales.x.grid.color = gridColor;
+                    }
+                    if (chart.options.scales.y) {
+                        chart.options.scales.y.ticks.color = textColor;
+                        chart.options.scales.y.grid.color = gridColor;
+                    }
+                    if (chart.options.scales.r) {
+                        chart.options.scales.r.angleLines.color = gridColor;
+                        chart.options.scales.r.grid.color = gridColor;
+                        chart.options.scales.r.pointLabels.color = textColor;
+                    }
+                }
+                if (chart.options.plugins && chart.options.plugins.legend) {
+                    chart.options.plugins.legend.labels.color = textColor;
+                }
+                chart.update();
+            });
+        }
+        
         // 创建粒子效果
         function createParticles() {
             const container = document.getElementById('particles');
@@ -1139,18 +1356,18 @@
                     scales: {
                         x: {
                             grid: {
-                                color: 'rgba(255,255,255,0.05)'
+                                color: getChartGridColor()
                             },
                             ticks: {
-                                color: 'rgba(255,255,255,0.5)'
+                                color: getChartTextColor()
                             }
                         },
                         y: {
                             grid: {
-                                color: 'rgba(255,255,255,0.05)'
+                                color: getChartGridColor()
                             },
                             ticks: {
-                                color: 'rgba(255,255,255,0.5)'
+                                color: getChartTextColor()
                             }
                         }
                     }
@@ -1194,7 +1411,7 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: 'rgba(255,255,255,0.7)',
+                                color: getChartTextColor(),
                                 padding: 15,
                                 usePointStyle: true,
                                 pointStyle: 'circle'
@@ -1214,8 +1431,26 @@
             });
         }
         
+        // 获取当前主题状态
+        function isDarkMode() {
+            return document.documentElement.classList.contains('dark');
+        }
+        
+        // 获取图表文字颜色
+        function getChartTextColor() {
+            return isDarkMode() ? 'rgba(255,255,255,0.5)' : 'rgba(71,85,105,1)';
+        }
+        
+        // 获取图表网格颜色
+        function getChartGridColor() {
+            return isDarkMode() ? 'rgba(255,255,255,0.05)' : 'rgba(226,232,240,1)';
+        }
+        
         // 图表初始化
         document.addEventListener('DOMContentLoaded', () => {
+            // 初始化主题切换
+            initTheme();
+            
             createParticles();
             document.querySelector('.fade-in-up').classList.add('visible');
             
@@ -1247,9 +1482,9 @@
                     maintainAspectRatio: false,
                     scales: {
                         r: {
-                            angleLines: { color: 'rgba(255,255,255,0.1)' },
-                            grid: { color: 'rgba(255,255,255,0.1)' },
-                            pointLabels: { color: 'rgba(255,255,255,0.6)' },
+                            angleLines: { color: getChartGridColor() },
+                            grid: { color: getChartGridColor() },
+                            pointLabels: { color: getChartTextColor() },
                             ticks: { display: false },
                             suggestedMin: 0,
                             suggestedMax: 100
@@ -1287,7 +1522,7 @@
                         legend: {
                             position: 'bottom',
                             labels: {
-                                color: 'rgba(255,255,255,0.6)',
+                                color: getChartTextColor(),
                                 padding: 12,
                                 font: { size: 11 }
                             }
@@ -1323,12 +1558,12 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: 'rgba(255,255,255,0.05)' },
-                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                            grid: { color: getChartGridColor() },
+                            ticks: { color: getChartTextColor() }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: 'rgba(255,255,255,0.5)' }
+                            ticks: { color: getChartTextColor() }
                         }
                     }
                 }
